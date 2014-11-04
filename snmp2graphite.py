@@ -5,15 +5,15 @@ import time
 import socket
 import threading
 
-INTERVAL = 60
+INTERVAL = 60 #60 seconds is pretty standard for network metrics
 VERSION = 2
-COMMUNITY = "yextcollect"
-CARBON_SERVER = "inf-mon01.nj1.yext.com"
+COMMUNITY = "mycommunity"
+CARBON_SERVER = "myhost.example.com"
 CARBON_PORT = 2003
 NUM_ITER = 0
 # Substrings of interfaces to be excluded from polling (common Cisco and Juniper ones are included here)
 interface_exceptions = [ "Vlan", "Null", ".0", "bme", "vcp", "lsi", "dsc", "lo0", "vlan", "tap", "gre", "ipip", "pime", "pimd", "mtun" ]
-host_list = [ "sw-ca", "sw-cb" ]
+host_list = [ "core-switch-1", "core-switch-2", "access-switch-1" ]
 
 def schedule_collect(interval, collector, hst, vrs, comm, num_runs = 0):
     if num_runs != 1:
