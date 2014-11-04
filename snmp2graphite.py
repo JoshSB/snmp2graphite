@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import argparse
+#import argparse
 import netsnmp
 import time
 import socket
