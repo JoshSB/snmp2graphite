@@ -5,15 +5,19 @@ import time
 import socket
 import threading
 
-INTERVAL = 60 #60 seconds is pretty standard for network metrics
+# You probably don't want to change these
+INTERVAL = 60 
 VERSION = 2
+NUM_ITER = 0
+interface_exceptions = [ "Vlan", "Null", ".0", "bme", "vcp", "lsi", "dsc", "lo0", "vlan", "tap", "gre", "ipip", "pime", "pimd", "mtun" ]
+
+# You probably want to change these
 COMMUNITY = "mycommunity"
 CARBON_SERVER = "myhost.example.com"
-CARBON_PORT = 2003
-NUM_ITER = 0
-# Substrings of interfaces to be excluded from polling (common Cisco and Juniper ones are included here)
-interface_exceptions = [ "Vlan", "Null", ".0", "bme", "vcp", "lsi", "dsc", "lo0", "vlan", "tap", "gre", "ipip", "pime", "pimd", "mtun" ]
 host_list = [ "core-switch-1", "core-switch-2", "access-switch-1" ]
+
+# /shrug
+CARBON_PORT = 2003
 
 def schedule_collect(interval, collector, hst, vrs, comm, num_runs = 0):
     if num_runs != 1:
