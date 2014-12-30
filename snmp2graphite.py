@@ -7,6 +7,7 @@
 #  of interfaces.
 
 #  User Variables:
+#  PER_SECOND           Display value perSecond? Default is per INTERVAL (requires patch or graphite>0.10)
 #  SNMP_COMMUNITY	Set this to the SNMPv2 community used to pull stats from your network gear
 #  CARBON_SERVER	The hostname/IP used to address your Carbon-Cache
 #  CARBON_PORT		The TCP port to which metrics will be sent
@@ -27,6 +28,7 @@ INTERVAL = 60
 SNMP_VERSION = 2
 
 #  /USER VARIABLES/
+PER_SECOND = 1
 SNMP_COMMUNITY = "my_community"  
 CARBON_SERVER = "carbon_server"  
 CARBON_PORT = 2003  
@@ -66,7 +68,10 @@ class BaseCP(object):
             html_body = ""
             html_top = "<html><head><title>" + args[0] + "</title></head><body>"
             for x in port_list[args[0]]:
-                html_body+="<img src=\"http://" + GRAPHITE_SERVER + "/render?target=nonNegativeDerivative%28" + GRAPHITE_PREFIX + args[0] + ".if." + x + "-*,18446744073709551615%29&from=-60min&height=200&width=600\">"
+                if (PER_SECOND == 0):
+                    html_body+="<img src=\"http://" + GRAPHITE_SERVER + "/render?target=nonNegativeDerivative%28" + GRAPHITE_PREFIX + args[0] + ".if." + x + "-*,18446744073709551615%29&from=-60min&height=200&width=600\">"
+                if (PER_SECOND == 1):
+                    html_body+="<img src=\"http://" + GRAPHITE_SERVER + "/render?target=perSecond%28" + GRAPHITE_PREFIX + args[0] + ".if." + x + "-*%29&from=-60min&height=200&width=600\">"
             html_end = "</body></html>"
             return html_top + html_body + html_end
 
